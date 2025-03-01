@@ -13,3 +13,47 @@ form {
   overflow-y: auto;
   min-height: 100%;
 }
+
+.preview-text {
+  white-space: pre-wrap;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  max-height: 3rem;
+  min-height: 3rem;
+  height: 3rem;
+}
+
+.session-item {
+  cursor: pointer;
+  transition: background-color 0.2s;
+  padding: 0.75rem 1rem;
+}
+
+.session-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.session-actions {
+  opacity: 0.3;
+  transition: opacity 0.2s;
+}
+
+.session-item:hover .session-actions {
+  opacity: 1;
+}
+
+.session-actions a svg {
+  transition: transform 0.2s;
+}
+
+.session-actions a:hover svg {
+  transform: scale(1.2);
+}
+
+#sidebar {
+  width: 350px;
+  min-width: 350px;
+  max-width: 350px;
+  flex-shrink: 0;
+}
