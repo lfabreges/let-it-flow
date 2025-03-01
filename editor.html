@@ -10,14 +10,18 @@
 <body class="d-flex flex-column vh-100">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">Let it flow</a>
+      <a class="navbar-brand" href="index.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+      </a>
       <div class="ms-auto fs-4">
         <span id="timer" class="badge text-bg-primary font-monospace"></span>
       </div>
     </div>
   </nav>
   <div class="container-fluid flex-grow-1 p-2 d-flex">
-    <textarea id="editor" class="form-control h-100" placeholder="Commencez à écrire..." spellcheck="false"></textarea>
+    <textarea id="editor" class="form-control h-100 fs-5" placeholder="Commencez à écrire..." spellcheck="false"></textarea>
   </div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>
