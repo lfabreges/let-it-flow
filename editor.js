@@ -113,6 +113,7 @@ $(document).ready(function() {
       timer.start();
       editorElement.animate({color: 'rgba(0, 0, 0, 0)'}, CONTENT_LIFE_TIME_IN_MILLISECONDS, function() {
         editorElement.val('').trigger('input').focus();
+        timer.reset();
       });
     }
   });
