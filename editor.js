@@ -70,24 +70,18 @@ $(document).ready(function() {
   const sessionId = params.get('session') || Date.now().toString();
   const sessionContent = localStorage.getItem(sessionId);
 
-  if (sessionContent) {
-    editorElement.val(sessionContent).prop('disabled', true);
+  const finishedSessionInputHandler = function() {
+    localStorage.setItem(sessionId, editorElement.val());
+  }
+
+  if (null !== sessionContent) {
+    editorElement.val(sessionContent).on('input', finishedSessionInputHandler);
     return;
   }
 
-  const timer = new Timer(durationInMinutes, function() {
-    timerElement.text(this.toString());
-    
-    if (this.hasEnded()) {
-      editorElement.stop(true, false).css('color', 'rgba(0, 0, 0, 1)').prop('disabled', true);
-      timerElement.removeClass('text-bg-primary').addClass('text-bg-success');
-      localStorage.setItem(sessionId, editorElement.val());
-    }
-  });
-
   let lastEditorContent = '';
 
-  editorElement.on('input', function() {
+  const activeSessionInputHandler = function() {
     const editorContent = editorElement.val();
 
     if (timer.hasEnded() || lastEditorContent == editorContent) { 
@@ -110,13 +104,34 @@ $(document).ready(function() {
     
     editorElement.stop(true, false).css('color', 'rgba(0, 0, 0, 1)');
 
-    if (!isContentEmpty) {
-      timer.start();
-      editorElement.animate({color: 'rgba(0, 0, 0, 0)'}, CONTENT_LIFE_TIME_IN_MILLISECONDS, function() {
-        editorElement.val('').trigger('input').focus();
-      });
+    if (isContentEmpty) {
+      return;
+    }
+
+    timer.start();
+
+    editorElement.animate(
+      {color: 'rgba(0, 0, 0, 0)'},
+      CONTENT_LIFE_TIME_IN_MILLISECONDS,
+      () => editorElement.val('').trigger('input').focus()
+    );
+  }
+
+  const timer = new Timer(durationInMinutes, function() {
+    timerElement.text(this.toString());
+    
+    if (this.hasEnded()) {
+      editorElement.stop(true, false).css('color', 'rgba(0, 0, 0, 1)');
+      timerElement.removeClass('text-bg-primary').addClass('text-bg-success');
+
+      localStorage.setItem(sessionId, editorElement.val());
+
+      editorElement.off('input', activeSessionInputHandler);
+      editorElement.on('input', finishedSessionInputHandler);
     }
   });
+
+  editorElement.on('input', activeSessionInputHandler);
 
   timer.reset();
   editorElement.focus();
