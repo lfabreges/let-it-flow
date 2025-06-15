@@ -94,27 +94,26 @@ $(document).ready(function() {
       return;
     }
 
-    if (
-      editorContent.trim() == lastEditorContent.trim()
-      || editorContent.length <= lastEditorContent.length
-      || !editorContent.startsWith(lastEditorContent)
-    ) {
-      lastEditorContent = editorContent;
-      return;
-    }
+    const hasContentChanged = editorContent.trim() != lastEditorContent.trim()
+    const hasContentLenghtIncreased = editorContent.length > lastEditorContent.length;
+    const hasContentStartChanged = !editorContent.startsWith(lastEditorContent);
+    const isContentEmpty = '' === editorContent;
 
     lastEditorContent = editorContent;
-    editorElement.stop(true, false).css('color', 'rgba(0, 0, 0, 1)');
 
-    if ('' === editorContent) {
+    if (isContentEmpty) {
       timer.stop();
       timer.reset();
-    } else {
+    } else if (!hasContentChanged || !hasContentLenghtIncreased || hasContentStartChanged) {
+      return;
+    }
+    
+    editorElement.stop(true, false).css('color', 'rgba(0, 0, 0, 1)');
+
+    if (!isContentEmpty) {
       timer.start();
       editorElement.animate({color: 'rgba(0, 0, 0, 0)'}, CONTENT_LIFE_TIME_IN_MILLISECONDS, function() {
         editorElement.val('').trigger('input').focus();
-        timer.stop();
-        timer.reset();
       });
     }
   });
